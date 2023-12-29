@@ -5,6 +5,7 @@ window.addEventListener('load', function () {
     canvas.height = 720;
     let enemies = [];
     let score = 0;
+    let gameOver = false;
 
     class InputHandler {
         constructor() {
@@ -60,7 +61,16 @@ window.addEventListener('load', function () {
             context.stroke();
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
         }
-        update(input, deltaTime) {
+        update(input, deltaTime, enemies) {
+            // collision detection
+            enemies.forEach(enemy => {
+                const dx = enemy.x - this.x;
+                const dy = enemy.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < enemy.width/2 + this.width/2) {
+                    gameOver = true;
+                }
+            });
             // sprite animation
             if (this.frameTimer > this.frameInterval) {
                 if (this.frameX >= this.maxFrame) this.frameX = 0;
@@ -207,10 +217,10 @@ window.addEventListener('load', function () {
         background.draw(ctx)
         //background.update()
         player.draw(ctx)
-        player.update(input, deltaTime)
+        player.update(input, deltaTime, enemies)
         handleEnemies(deltaTime)
         displayStatusText(ctx)
-        requestAnimationFrame(animate);
+        if (!gameOver) requestAnimationFrame(animate);
     }
     animate(0)
 });
