@@ -15,8 +15,9 @@ window.addEventListener('load', function () {
                 && this.keys.indexOf(e.key) === -1) {
                     this.keys.push(e.key);
                 }
+                console.log(e.key, this.keys);
             });
-            window.addEventListener('keydown', (e) => {
+            window.addEventListener('keyup', (e) => {
                 if (e.key == 'ArrowDown' || 
                 e.key === "ArrowUp" || 
                 e.key === "ArrowLeft" || 
@@ -24,6 +25,7 @@ window.addEventListener('load', function () {
                  {
                     this.keys.splice(this.keys.indexOf(e.key), 1);
                 }
+                console.log(e.key, this.keys);
             });
         }
     }
@@ -48,11 +50,18 @@ window.addEventListener('load', function () {
             context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height)
         }
         update(input) {
+            // horizontal movement
             this.x += this.speed;
+            if (input.keys.indexOf("ArrowRight") > -1) {
+                this.speed = 5;
+            } else {
+                this.speed = 0;
+            }
+
         }
     }
 
-    class Backgroud {}
+    class Background {}
 
     class Enemy {}
 
@@ -66,7 +75,7 @@ window.addEventListener('load', function () {
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         player.draw(ctx)
-        player.update()
+        player.update(input)
         requestAnimationFrame(animate);
     }
     animate()
