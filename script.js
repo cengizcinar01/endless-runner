@@ -5,30 +5,25 @@ window.addEventListener('load', function () {
     canvas.height = 720;
 
     class InputHandler {
-
+        constructor() {
+            this.keys = [];
+            window.addEventListener('keydown', function (e) {
+                console.log(e);
+            });
+        }
     }
 
-    class Player {
+    class Player {}
 
-    }
+    class Backgroud {}
 
-    class Backgroud {
+    class Enemy {}
 
-    }
+    function handleEnemies() {}
 
-    class Enemy {
+    function displayStatusText() {}
 
-    }
+    const input = new InputHandler();
 
-    function handleEnemies() {
-
-    }
-
-    function displayStatusText() {
-
-    }
-
-    function animate() {
-        
-    }
+    function animate() {}
 });
