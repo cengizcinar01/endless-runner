@@ -57,7 +57,7 @@ window.addEventListener('load', function () {
             } else if (input.keys.indexOf("ArrowLeft") > -1) {
                 this.speed = -5
             } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
-                this.vy -= 10;
+                this.vy -= 32;
             } else {
                 this.speed = 0;
             }
