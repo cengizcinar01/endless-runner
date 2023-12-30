@@ -6,12 +6,13 @@ window.addEventListener('load', function () {
     let enemies = [];
     let score = 0;
     let gameOver = false;
+    const fullScreenButton = document.getElementById("fullScreenButton")
 
     class InputHandler {
         constructor() {
             this.keys = [];
             this.touchY = "";
-            this.touchThreshold = 200;
+            this.touchThreshold = 30;
             window.addEventListener('keydown', (e) => {
                 if ((e.key == 'ArrowDown' || 
                 e.key === "ArrowUp" || 
@@ -102,7 +103,7 @@ window.addEventListener('load', function () {
                 this.speed = 5;
             } else if (input.keys.indexOf("ArrowLeft") > -1) {
                 this.speed = -5
-            } else if (input.keys.indexOf("ArrowUp") > -1 && this.onGround()) {
+            } else if ((input.keys.indexOf("ArrowUp") > -1 || input.keys.indexOf("swipe up") > -1 ) && this.onGround()) {
                 this.vy -= 32;
             } else {
                 this.speed = 0;
@@ -217,9 +218,9 @@ window.addEventListener('load', function () {
         if (gameOver) {
             context.textAlign = "center"
             context.fillStyle = "black";
-            context.fillText("GAME OVER, press Enter to restart!", canvas.width/2, 200);
+            context.fillText("GAME OVER, press Enter or swipe down to restart!", canvas.width/2, 200);
             context.fillStyle = "white";
-            context.fillText("GAME OVER, press Enter to restart!", canvas.width/2 + 2, 202);
+            context.fillText("GAME OVER, press Enter or swipe down to restart!", canvas.width/2 + 2, 202);
         }
     }
 
@@ -232,6 +233,17 @@ window.addEventListener('load', function () {
         animate(0)
 
     } 
+
+    function toggleFullScreen(){
+        if (!document.fullscreenElement){
+            canvas.requestFullscreen().catch(err => {
+                alert(`Error, can't enable full-screen mode: ${err.message}`)
+            });
+        } else {
+            document.exitFullScreen();
+        }
+    }
+    fullScreenButton.addEventListener("click", toggleFullScreen)
 
     const input = new InputHandler();
     const player = new Player(canvas.width, canvas.height);
