@@ -18,7 +18,6 @@ window.addEventListener('load', function () {
                 && this.keys.indexOf(e.key) === -1) {
                     this.keys.push(e.key);
                 } else if (e.key === "Enter" && gameOver) restartGame()
-                console.log(e.key, this.keys);
             });
             window.addEventListener('keyup', (e) => {
                 if (e.key == 'ArrowDown' || 
@@ -28,8 +27,16 @@ window.addEventListener('load', function () {
                  {
                     this.keys.splice(this.keys.indexOf(e.key), 1);
                 }
-                console.log(e.key, this.keys);
             });
+            window.addEventListener("touchstart" , e => {
+                console.log("start")
+            })
+            window.addEventListener("touchmove" , e => {
+                console.log("moving")
+            })
+            window.addEventListener("touchend" , e => {
+                console.log("end")
+            })
         }
     }
 
@@ -179,7 +186,6 @@ window.addEventListener('load', function () {
     function handleEnemies(deltaTime) {
         if (enemyTimer > enemyInterval + randomEnemyInterval) {
             enemies.push(new Enemy(canvas.width, canvas.height))
-            console.log(enemies)
             randomEnemyInterval = Math.random() * 1000 + 500
             enemyTimer = 0;
         } else {
@@ -193,6 +199,7 @@ window.addEventListener('load', function () {
     }
 
     function displayStatusText(context) {
+        context.textAlign = "left"
         context.font = "40px Helvetica";
         context.fillStyle = "black";
         context.fillText("Score: " + score, 20, 50);
@@ -201,9 +208,9 @@ window.addEventListener('load', function () {
         if (gameOver) {
             context.textAlign = "center"
             context.fillStyle = "black";
-            context.fillText("GAME OVER, try again! ", canvas.width/2, 200);
+            context.fillText("GAME OVER, press Enter to restart!", canvas.width/2, 200);
             context.fillStyle = "white";
-            context.fillText("GAME OVER, try again! ", canvas.width/2 + 2, 202);
+            context.fillText("GAME OVER, press Enter to restart!", canvas.width/2 + 2, 202);
         }
     }
 
